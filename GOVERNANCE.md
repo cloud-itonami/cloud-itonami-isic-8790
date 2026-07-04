@@ -1,6 +1,6 @@
 # Governance
 
-`cloud-itonami-8790` is an OSS open-business blueprint for other residential care activities not elsewhere classified (e.g. children's homes, orphanages, residential care for the homeless).
+`cloud-itonami-isic-8790` is an OSS open-business blueprint for other residential care activities not elsewhere classified (e.g. children's homes, orphanages, residential care for the homeless).
 Governance covers both the capability layer and the operator model.
 
 ## Maintainers

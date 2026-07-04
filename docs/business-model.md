@@ -2,7 +2,7 @@
 
 ## Classification
 
-- Repository: `cloud-itonami-8790`
+- Repository: `cloud-itonami-isic-8790`
 - ISIC Rev.5: `8790`
 - Activity: other residential care activities not elsewhere classified (e.g. children's homes, orphanages, residential care for the homeless)
 - Social impact: care quality, data sovereignty, transparent audit

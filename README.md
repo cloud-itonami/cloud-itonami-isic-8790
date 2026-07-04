@@ -1,4 +1,4 @@
-# cloud-itonami-8790
+# cloud-itonami-isic-8790
 
 Open Business Blueprint for **ISIC Rev.5 8790**: Other residential care activities.
 
