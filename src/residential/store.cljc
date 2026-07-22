@@ -38,10 +38,9 @@
   audit trail a family/community trusting a residential-care operator
   needs, and the evidence an operator needs if a finalization decision
   is later disputed."
-  (:require #?(:clj  [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            [residential.registry :as registry]
-            [langchain.db :as d]))
+  (:require [residential.registry :as registry]
+            [langchain.db :as d]
+            [langchain-store.core :as ls]))
 
 (defprotocol Store
   (resident [s id])
@@ -199,8 +198,8 @@
    :careplan-sequence/jurisdiction                {:db/unique :db.unique/identity}
    :incident-sequence/jurisdiction                 {:db/unique :db.unique/identity}})
 
-(defn- enc [v] (pr-str v))
-(defn- dec* [s] (when s (edn/read-string s)))
+(defn- enc [v] (ls/enc v))
+(defn- dec* [s] (ls/dec* s))
 
 (defn- resident->tx [{:keys [id resident-name mandatory-reporting-obligation-unresolved?
                             background-check-not-cleared? care-plan-finalized?
