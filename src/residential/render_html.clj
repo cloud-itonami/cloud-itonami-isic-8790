@@ -265,9 +265,18 @@
        (map :by)
        first))
 
-(defn- attribution-row [label subject o stored audit]
+(defn- committed?
+  "Did this run actually commit `o` for `subject`? Distinguishes a
+  record this scenario wrote from one that was merely seeded into the
+  store by `demo-data` -- labelling a seeded row as 'auto-committed'
+  would be a fabrication."
+  [ledger subject o]
+  (boolean (some #(and (= :committed (:t %)) (= subject (:subject %)) (= o (:op %))) ledger)))
+
+(defn- attribution-row [ledger audit label subject o stored]
   (let [kept (retained-approver stored)
-        seen (audit-approver audit subject o)]
+        seen (audit-approver audit subject o)
+        wrote? (committed? ledger subject o)]
     (format "        <tr><td>%s</td><td><code>%s</code></td><td>%s</td><td>%s</td></tr>"
             (esc label) (esc subject)
             (cond kept (str "<code>" (esc kept) "</code>")
@@ -275,9 +284,11 @@
                   :else "<span class=\"muted\">&mdash;</span>")
             (cond
               kept "<span class=\"ok\">retained in record</span>"
-              seen (str "<span class=\"warn\">audit only &mdash; not retained in record</span>")
-              :else (str "<span class=\"muted\">auto-committed under phase-3 policy &mdash; "
-                         "no human approver required</span>")))))
+              seen "<span class=\"warn\">audit only &mdash; not retained in record</span>"
+              wrote? (str "<span class=\"muted\">auto-committed under phase-"
+                          phase/default-phase " policy &mdash; no human approver required</span>")
+              :else (str "<span class=\"muted\">seeded directory entry &mdash; "
+                         "no op committed it in this run</span>")))))
 
 (defn- attribution-rows
   "Walks the SSoT registers and the actuation histories and asks each
@@ -286,7 +297,7 @@
   audit fact and labelled as such -- silently omitting it would leave a
   reader unable to distinguish 'nobody approved' from 'the store did
   not keep it'."
-  [db audit]
+  [db ledger audit]
   (concat
    (for [r (store/all-residents db)
          [label o stored]
@@ -295,13 +306,13 @@
           ["safeguarding register (:safeguarding/set)" :safeguarding/screen (store/safeguarding-of db (:id r))]
           ["background-check register (:background-check/set)" :background-check/screen (store/background-check-of db (:id r))]]
          :when stored]
-     (attribution-row label (:id r) o stored audit))
+     (attribution-row ledger audit label (:id r) o stored))
    (for [rec (store/careplan-history db)]
-     (attribution-row "care-plan finalization record" (get rec "resident_id")
-                      :actuation/finalize-care-plan rec audit))
+     (attribution-row ledger audit "care-plan finalization record" (get rec "resident_id")
+                      :actuation/finalize-care-plan rec))
    (for [rec (store/incident-history db)]
-     (attribution-row "incident-response finalization record" (get rec "resident_id")
-                      :actuation/finalize-incident-response rec audit))))
+     (attribution-row ledger audit "incident-response finalization record" (get rec "resident_id")
+                      :actuation/finalize-incident-response rec))))
 
 ;; ----------------------------- ledger -----------------------------
 
@@ -435,7 +446,7 @@
      "    <table>\n"
      "      <thead><tr><th>Register / record</th><th>Resident</th><th>Approver</th><th>Provenance</th></tr></thead>\n"
      "      <tbody>\n"
-     (str/join "\n" (attribution-rows db audit)) "\n"
+     (str/join "\n" (attribution-rows db ledger audit)) "\n"
      "      </tbody>\n"
      "    </table>\n"
      "  </section>\n"
