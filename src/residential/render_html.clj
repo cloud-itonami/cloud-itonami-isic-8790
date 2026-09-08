@@ -26,7 +26,7 @@
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [clojure.java.io :as io]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [residential.store :as store]
             [residential.facts :as facts]
             [residential.phase :as phase]
