@@ -30,7 +30,7 @@
   `residential.operation`'s `:actuation/finalize-care-plan`/
   `:actuation/finalize-incident-response`, always human-gated -- see
   README `Actuation`)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -64,7 +64,7 @@
     (throw (ex-info "care-plan-finalization: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "care-plan-finalization: sequence must be >= 0" {})))
-  (let [careplan-number (str (str/upper-case jurisdiction) "-CP-" (zero-pad sequence 6))
+  (let [careplan-number (str (str/upper jurisdiction) "-CP-" (zero-pad sequence 6))
         record {"record_id" careplan-number
                 "kind" "care-plan-finalization-draft"
                 "resident_id" resident-id
@@ -89,7 +89,7 @@
     (throw (ex-info "incident-response-finalization: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "incident-response-finalization: sequence must be >= 0" {})))
-  (let [incident-number (str (str/upper-case jurisdiction) "-INC-" (zero-pad sequence 6))
+  (let [incident-number (str (str/upper jurisdiction) "-INC-" (zero-pad sequence 6))
         record {"record_id" incident-number
                 "kind" "incident-response-finalization-draft"
                 "resident_id" resident-id
