@@ -121,7 +121,7 @@ layers enforce this (`residential.governor`'s `:actuation/finalize-
 care-plan`/`:actuation/finalize-incident-response` high-stakes gate
 and `residential.phase`'s phase table, which never puts either op in
 any phase's `:auto` set) -- see `residential.phase`'s docstring and
-`test/residential/phase_test.clj`'s `finalize-care-plan-never-auto-
+`test/residential/phase_test.kotoba`'s `finalize-care-plan-never-auto-
 at-any-phase`/`finalize-incident-response-never-auto-at-any-phase`.
 The actor may draft, check and recommend; a human licensed care-staff
 member is always the one who actually finalizes a care plan or
@@ -213,14 +213,14 @@ stack only -- no bespoke domain capability lib to reference at all.
 
 | File | Role |
 |---|---|
-| `src/residential/store.cljc` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + SEPARATE care-plan-finalization and incident-response-finalization histories/sequence counters. No dynamically-filed sub-record -- each actuation op acts directly on a pre-seeded resident, and the double-actuation guards check dedicated `:care-plan-finalized?`/`:incident-response-finalized?` booleans rather than a `:status` value |
-| `src/residential/registry.cljc` | Care-plan- and incident-response-finalization draft records. Intentionally 'plain': this build's two distinctive checks are both boolean flags evaluated directly by the governor, not registry-level numeric/temporal predicates |
-| `src/residential/facts.cljc` | Per-jurisdiction residential-care/safeguarding catalog with an official spec-basis citation per entry, honest coverage reporting |
-| `src/residential/residentialadvisor.cljc` | **ResidentialOps-LLM** -- `mock-advisor` ‖ `llm-advisor`; intake/careplan-verification/safeguarding-screening/background-check-screening/care-plan-finalization/incident-response-finalization proposals |
-| `src/residential/governor.cljc` | **Residential Care Governor** -- 6 HARD checks (spec-basis · evidence-incomplete · mandatory-reporting-obligation-unresolved, unconditional evaluation, GENUINELY NEW, the 51st grounding of this discipline · background-check-not-cleared, unconditional evaluation, the FIFTH literal instance of `school`'s/`sports`'s/`personalservice`'s/`edsupport`'s concept, the 52nd grounding overall, not claimed as new · already-care-plan-finalized guard · already-incident-finalized guard) + 1 soft (confidence/actuation gate) |
-| `src/residential/phase.cljc` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (both finalizations always human; resident intake is the ONLY auto-eligible op, no direct capital risk) |
-| `src/residential/operation.cljc` | **OperationActor** -- langgraph-clj StateGraph |
-| `src/residential/sim.cljc` | demo driver |
+| `src/residential/store.kotoba` | **Store** protocol -- `MemStore` ‖ `DatomicStore` (`langchain.db`) + append-only audit ledger + SEPARATE care-plan-finalization and incident-response-finalization histories/sequence counters. No dynamically-filed sub-record -- each actuation op acts directly on a pre-seeded resident, and the double-actuation guards check dedicated `:care-plan-finalized?`/`:incident-response-finalized?` booleans rather than a `:status` value |
+| `src/residential/registry.kotoba` | Care-plan- and incident-response-finalization draft records. Intentionally 'plain': this build's two distinctive checks are both boolean flags evaluated directly by the governor, not registry-level numeric/temporal predicates |
+| `src/residential/facts.kotoba` | Per-jurisdiction residential-care/safeguarding catalog with an official spec-basis citation per entry, honest coverage reporting |
+| `src/residential/residentialadvisor.kotoba` | **ResidentialOps-LLM** -- `mock-advisor` ‖ `llm-advisor`; intake/careplan-verification/safeguarding-screening/background-check-screening/care-plan-finalization/incident-response-finalization proposals |
+| `src/residential/governor.kotoba` | **Residential Care Governor** -- 6 HARD checks (spec-basis · evidence-incomplete · mandatory-reporting-obligation-unresolved, unconditional evaluation, GENUINELY NEW, the 51st grounding of this discipline · background-check-not-cleared, unconditional evaluation, the FIFTH literal instance of `school`'s/`sports`'s/`personalservice`'s/`edsupport`'s concept, the 52nd grounding overall, not claimed as new · already-care-plan-finalized guard · already-incident-finalized guard) + 1 soft (confidence/actuation gate) |
+| `src/residential/phase.kotoba` | **Phase 0→3** -- read-only → assisted intake → assisted verify → supervised (both finalizations always human; resident intake is the ONLY auto-eligible op, no direct capital risk) |
+| `src/residential/operation.kotoba` | **OperationActor** -- langgraph-clj StateGraph |
+| `src/residential/sim.kotoba` | demo driver |
 | `test/residential/*_test.clj` | governor contract · phase invariants · store parity · registry conformance · facts coverage |
 
 ## Business-process coverage (honest)

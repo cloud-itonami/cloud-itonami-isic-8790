@@ -54,7 +54,7 @@ This drives `residential.sim`, which:
 
 ## Residential Care Governor
 
-**Location:** `src/residential/governor.cljc`
+**Location:** `src/residential/governor.kotoba`
 
 The governor is the **independent approval layer** that sits between the ResidentialOps-LLM (in `residentialadvisor.cljc`) and execution. It enforces:
 
@@ -77,7 +77,7 @@ clojure -M:lint
 
 ## Jurisdiction Configuration
 
-Add new jurisdictions by extending `residential.facts/catalog` in `src/residential/facts.cljc`. Each entry must cite an official spec-basis (law, regulation, or guidance document):
+Add new jurisdictions by extending `residential.facts/catalog` in `src/residential/facts.kotoba`. Each entry must cite an official spec-basis (law, regulation, or guidance document):
 
 ```clojure
 {:jurisdiction/id :usa-ca
@@ -92,7 +92,7 @@ Currently seeded with 4 jurisdictions (JPN, USA, GBR, DEU). Adding coverage is a
 - **Development:** `MemStore` (in-memory; resets on restart)
 - **Production:** `DatomicStore` via `langchain.db` (persistent; supports audit ledger and checkpoints)
 
-Both implement the same `Store` protocol (see `src/residential/store.cljc`).
+Both implement the same `Store` protocol (see `src/residential/store.kotoba`).
 
 ## Next Steps
 
