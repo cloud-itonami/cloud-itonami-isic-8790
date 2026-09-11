@@ -28,7 +28,7 @@
 Verify the Residential Care Governor contract, phase invariants, and store consistency:
 
 ```bash
-clojure -M:dev:test
+kbb -M:dev:test
 ```
 
 This runs:
@@ -43,7 +43,7 @@ This runs:
 Walk one complete resident lifecycle (clean intake through care-plan finalization) plus four HARD-hold cases:
 
 ```bash
-clojure -M:dev:run
+kbb -M:dev:run
 ```
 
 This drives `residential.sim`, which:
@@ -72,7 +72,7 @@ The governor is the **independent approval layer** that sits between the Residen
 Run `clj-kondo` linting (errors fail CI):
 
 ```bash
-clojure -M:lint
+kbb -M:lint
 ```
 
 ## Jurisdiction Configuration

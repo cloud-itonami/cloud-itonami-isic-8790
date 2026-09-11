@@ -5,7 +5,7 @@
   this repo previously had NO demo page and no generator at all. This
   namespace drives the REAL actor stack (`residential.operation` ->
   `residential.governor` -> `residential.store`) through the scenario
-  this repo's own `residential.sim` demo driver (`clojure -M:dev:run`)
+  this repo's own `residential.sim` demo driver (`kbb -M:dev:run`)
   already exercises -- confirmed BEFORE writing this file to produce a
   sensible ledger against the real seeded resident ids
   `resident-1`..`resident-4` from `residential.store/demo-data`.
@@ -22,7 +22,7 @@
   reruns against the same seed (verify by diffing two consecutive runs
   into scratch dirs).
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [clojure.java.io :as io]
@@ -350,7 +350,7 @@
      ;; --- residents ---
      "  <section class=\"card\">\n"
      "    <h2>Residents</h2>\n"
-     "    <p class=\"muted\">Demo snapshot — build-time-generated from <code>residential.store</code> via <code>residential.render-html</code> (<code>clojure -M:dev:render-html</code>). Every row is read back out of the SSoT after a real actor run.</p>\n"
+     "    <p class=\"muted\">Demo snapshot — build-time-generated from <code>residential.store</code> via <code>residential.render-html</code> (<code>kbb -M:dev:render-html</code>). Every row is read back out of the SSoT after a real actor run.</p>\n"
      "    <table>\n"
      "      <thead><tr><th>Resident</th><th>Name</th><th>Jurisdiction</th><th>Mandatory-reporting obligation unresolved</th><th>Background check not cleared</th><th>Care plan</th><th>Incident response</th><th>Last op status</th></tr></thead>\n"
      "      <tbody>\n"
