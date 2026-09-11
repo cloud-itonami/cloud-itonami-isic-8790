@@ -1,5 +1,5 @@
 (ns residential.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean resident through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean resident through
   intake -> care-plan verification -> safeguarding screening ->
   background-check screening -> care-plan-finalization proposal
   (always escalates) -> human approval -> commit, then through
