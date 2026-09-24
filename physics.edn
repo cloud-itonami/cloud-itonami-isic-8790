@@ -1,0 +1,35 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": a facility-safety monitoring robot supports
+;; physical resident safety checks in other residential care (ISIC 8790:
+;; group homes, children's homes, supported living). Its physical work: the
+;; fire-safety round, which includes judging how long a bedroom fire door
+;; holds its unexposed face below the insulation limit, and the room-check
+;; round along the corridors.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-8790"
+ :cases
+ [{:id :bedroom-fire-door
+   :kind :thermal
+   :procedure "timber bedroom fire door exposed to a standard fire on the corridor side for 30 minutes; unexposed (bedroom) face temperature"
+   :params {:conductivity-w-mk 0.13 :density-kg-m3 500.0 :specific-heat-j-kgk 1600.0
+            :t0-c 20.0 :hot-curve :iso-834 :h-front-w-m2k 25.0 :h-back-w-m2k 9.0
+            :threshold-c 160.0 :duration-s 1800.0 :nodes 21}
+   :sweep {:param :thickness-m :values [0.020 0.030 0.035 0.044 0.054]}
+   :quantity :peak-back-c
+   :limit {:max 160.0 :basis "EN 1363-1 insulation criterion: mean unexposed-face rise of 140 K over the 20 C start (charring of the timber is not modelled: estimate)"}
+   :boundary {:lo 0.01 :hi 0.08}}
+  {:id :room-check-round
+   :kind :transport
+   :procedure "monitoring robot drives the room-check round along the home's corridors and back to its dock"
+   :params {:mass-kg 35.0 :payload-kg 2.0 :v-max-mps 0.7 :a-max-mps2 0.3
+            :brake-decel-mps2 0.8 :drive-force-n 120.0 :crr 0.015
+            :cog-height-m 0.55 :support-half-length-m 0.22 :max-time-s 5000.0}
+   :sweep {:param :distance-m :values [80.0 150.0 250.0 350.0 500.0]}
+   :quantity :cycle-time-s
+   :limit {:max 480.0 :basis "estimate: one round within 8 minutes so hourly night checks leave time at each door"}
+   :boundary {:lo 20.0 :hi 1500.0}}]}
