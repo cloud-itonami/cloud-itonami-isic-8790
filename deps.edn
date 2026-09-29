@@ -18,7 +18,7 @@
        io.github.kotoba-lang/langgraph
         {:local/root "../../kotoba-lang/langgraph"}
         ;; デジタル庁デザインシステム -- the workspace's base design system
-        ;; (CLAUDE.md "UI/UX 標準"). Used ONLY by the build-time renderer
+        ;; (AGENTS.md "UI/UX 標準"). Used ONLY by the build-time renderer
         ;; `residential.render-html`; the actor itself has no UI dep.
         ;; Pinned by git sha so the generated console is reproducible.
         io.github.kotoba-lang/jp-go-digital-design-system
